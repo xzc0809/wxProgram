@@ -47,7 +47,9 @@ Page({
             wx.showToast({
               title: '登录成功',
               
-            })
+            }),
+            app.userInfo=res.data.data;
+            console.log(app.userInfo)
           }else if(status==500){
             wx.showToast({
               title: res.data.msg,

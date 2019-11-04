@@ -35,12 +35,13 @@ Page({
           var status=res.data.status;
         
           if(status==200){
+            app.userInfo = res.data.data,
             wx.showToast({
               title: res.data.msg,
               duration:3000
             })
           }else if(status==500){
-              app.userInfo=res.data.data
+             
               wx.showToast({
                 title: res.data.msg,
                 icon:'none',
