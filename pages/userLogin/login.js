@@ -23,7 +23,9 @@ Page({
     var formObject=e.detail.value;
     var username=formObject.username;
     var password=formObject.password;
-    
+    wx.showLoading({
+      title: '请等待...',
+    })
     if(username.length==0||password.length==0){
       wx.showToast({
         title: '用户名或密码不能为空',
@@ -31,9 +33,7 @@ Page({
         duration:3000
       })
     }else{
-      wx.showLoading({
-        title: '请等待...',
-      })
+   
       wx.request({
         url: url+'/login',
         data:{
@@ -42,15 +42,23 @@ Page({
         },
         method:'POST',
         success:function(res){
+         
           var status=res.data.status;
+          
           if(status==200){
+         
             wx.showToast({
               title: '登录成功',
-              
-            }),
-            app.userInfo=res.data.data;
-            console.log(app.userInfo)
+            });
+            app.userInfo = res.data.data;
+            console.log(app.userInfo);
+            wx.redirectTo({
+              url: '../mine/mine',
+
+            })
+          
           }else if(status==500){
+           
             wx.showToast({
               title: res.data.msg,
               icon:'none'
@@ -61,7 +69,9 @@ Page({
               icon:'none'
             })
           }else{
+          
             wx.showToast({
+             
               title: '系统错误，请联系管理员，或检查网络',
               icon:'none'
             })
