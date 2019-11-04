@@ -1,4 +1,4 @@
-var videoUtil = require('../../utils/videoUtil.js')
+// var videoUtil = require('../../utils/videoUtil.js')
 
 const app = getApp()
 
@@ -7,8 +7,6 @@ Page({
     faceUrl: "../resource/images/noneface.png",
     
   },
-  onLoad:function(){
-    
-  }
+  onLoad:function(){}
 
 })
