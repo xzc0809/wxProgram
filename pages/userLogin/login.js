@@ -52,6 +52,7 @@ Page({
             });
             app.userInfo = res.data.data;
             console.log(app.userInfo);
+            console.log(app.userInfo.faceImage);
             wx.redirectTo({
               url: '../mine/mine',
 
