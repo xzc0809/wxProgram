@@ -1,5 +1,6 @@
 <view>
     <form bindsubmit='upload'>
+      <view class="container">选择你的BGM</view>
       <radio-group name="bgmId">
         <block wx:for="{{bgmList}}">
         <view class="container">
