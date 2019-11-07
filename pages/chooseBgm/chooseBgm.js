@@ -76,8 +76,57 @@ Page({
   },//
   //上传文件
   upload: function (e) {
-    var data=e.detail.value;
-    debugger
+   
+    var me = this;
+    var data = e.detail.value;
+    var bgmId = data.bgmId;//id
+    var desc = data.desc;//描述
+    var duration = me.data.videoParams.duration;//时长
+    var height = me.data.videoParams.height;//长
+    var width = me.data.videoParams.width;//宽
+    var size = me.data.videoParams.size;//size
+    var temVideoUrl = me.data.videoParams.temVideoUrl;//视频地址
+    var temCoverUrl = me.data.videoParams.temCoverUrl;//封面的地址
+
+    wx.showLoading({
+      title: '上传中..请等待',
+    })
+    console.log(app.serverUrl + '/video/upload'),
+    wx.uploadFile({
+      url: app.serverUrl+'/video/upload',
+      filePath: temVideoUrl,
+      name: 'file',
+      header: {
+        'content-type': 'application/json'
+      },
+      formData: {
+          userId: app.userInfo.id,
+          width: width,
+          height: height,
+          size: size,
+          bgmId: bgmId,
+          videoSeconds: duration,
+          desc: desc
+        },
+      success: function(res) {
+        
+        var data = JSON.parse(res.data);
+        console.log(data.status);
+        console.log(data);
+        if (data.status == 200) {
+          wx.showToast({
+            title: '上传成功',
+          })
+
+        } else if (data.status == 500) {
+          wx.showToast({
+            title: "失败",
+          })
+        }
+      }
+      
+    })
+   
   }
 
  
