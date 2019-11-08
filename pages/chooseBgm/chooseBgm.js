@@ -116,6 +116,9 @@ Page({
         if (data.status == 200) {
           wx.showToast({
             title: '上传成功',
+          });
+          wx.navigateBack({
+            delta:1
           })
 
         } else if (data.status == 500) {
