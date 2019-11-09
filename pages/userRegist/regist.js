@@ -35,7 +35,8 @@ Page({
           var status=res.data.status;
         
           if(status==200){
-            app.userInfo = res.data.data,
+            // app.userInfo修改为app.setGlobalUserInfo
+            app.setGlobalUserInfo(res.data.data),
             wx.showToast({
               title: res.data.msg,
               duration:3000

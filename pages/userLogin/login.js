@@ -50,9 +50,11 @@ Page({
             wx.showToast({
               title: '登录成功',
             });
-            app.userInfo = res.data.data;
-            console.log(app.userInfo);
-            console.log(app.userInfo.faceImage);
+            //app.userInfo修改为app.setGlobalUserInfo
+            app.setGlobalUserInfo(res.data.data);
+            console.log(app.getGlobalUserInfo);
+            // console.log(app.userInfo);
+            // console.log(app.userInfo.faceImage);
             wx.redirectTo({
               url: '../mine/mine',
 
