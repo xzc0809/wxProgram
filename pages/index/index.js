@@ -7,10 +7,27 @@ Page({
     pageNo:1,
     pageCount:null,
     videoList:[],
-    postUrl:null
+    postUrl:null,
+    searchValue:null,
+    isSaveRecord:0
   },
 
   onLoad: function (params) {
+    var me=this;
+    //获取搜索词
+    var searchValue=params.searchValue;//搜索值
+    var isSaveRecord=params.isSaveRecord;//是否保存到数据库
+    if(searchValue!=undefined){
+      me.setData({
+        searchValue:searchValue
+      })
+    }
+    if(isSaveRecord!=undefined){
+      me.setData({
+        isSaveRecord:isSaveRecord
+      })
+      
+    }
     var me = this;
     var serverUrl=me.data.serverUrl;
     var screenWidth = wx.getSystemInfoSync().screenWidth;//获取当前手机屏幕信息的api
@@ -20,20 +37,22 @@ Page({
     wx.showLoading({
       title: '获取中...',
     });
-    me.showVideo(me.data.pageNo)
+    me.showVideo(me.data.pageNo,searchValue)
   },
 
   showVideo:function(pageNo){//显示视频
     var me=this;
-    var postUrl = me.data.serverUrl + '/video/showAll?pageNo=' + pageNo;
-    console.log("触发");
-    console.log("触发showVideo"+postUrl)
+    var postUrl = me.data.serverUrl + '/video/showAll?pageNo=' + pageNo+"&isSaveRecord="+me.data.isSaveRecord;
+
     wx.request({
       url: postUrl,
       method: 'POST',
+      data:{
+        videoDesc:me.data.searchValue
+      },
       dataType: 'json',
       success: function (res) {
-
+        
         var data = res.data;
         console.log(res.data);
         if (data.status == 200) {
@@ -43,7 +62,7 @@ Page({
                 videoList:[]
             })
           }
-
+          
           var newVideoList=me.data.videoList.concat(data.data.rows);
           me.setData({
             videoList: newVideoList,
@@ -67,10 +86,14 @@ Page({
   },
 
   onReachBottom:function(){
-
+    
     var me=this;
     var pageNo=me.data.pageNo;
-    //判断是否最后一页
+
+    me.setData({
+      isSaveRecord:0
+    });
+        //判断是否最后一页
     if(pageNo===me.data.pageCount){
       wx.showToast({
         title: '到底了',
