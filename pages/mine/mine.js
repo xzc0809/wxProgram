@@ -13,31 +13,34 @@ Page({
 
   },
   onLoad:function(){
+    //app.getUserInfo修改为app.getGlobalUserIanfo
+    var userInfo = app.getGlobalUserInfo();
     var me=this;
-    if(app.userInfo.faceImage==null){
+    //app.userInfo修改为app.getGlobalUserInfo
+    if (userInfo.faceImage==null){
       this.setData({
         faceUrl: "../resource/images/noneface.png"
       })
       
     }else{
-      var faceUrl=app.serverUrl + app.userInfo.faceImage;
+      var faceUrl = app.serverUrl + userInfo.faceImage;
       me.setData({
         faceUrl:faceUrl
       })
       console.log(faceUrl)
     }
     wx.request({
-      url: app.serverUrl +'/user/queryUserInfo?userId='+app.userInfo.id, //查询用户信息
+      url: app.serverUrl + '/user/queryUserInfo?userId=' + userInfo.id, //查询用户信息
       method:"POST",
       success:function(res){
         var data=res.data;
         console.log(data.status);
         console.log(data.data.nickname);
 
-        var userToken=app.userInfo.userToken;
-        app.userInfo=data.data;//更新用户最新信息
-        app.userInfo.userToken=userToken;
-        console.log(app.userInfo)
+        var userToken = userInfo.userToken;
+        userInfo=data.data;//更新用户最新信息
+        userInfo.userToken=userToken;
+        console.log(userInfo)
         var fansCounts = data.data.fansCounts;
         var followCounts = data.data.followCounts;
         var receiveLikeCounts = data.data.followCounts;
@@ -54,7 +57,7 @@ Page({
     
   },
   logout:function(){
-    var userInfo=app.userInfo;
+    var userInfo=app.getGlobalUserInfo();
     console.log(userInfo);
     wx.showLoading({
       title: '注销中...',
@@ -67,7 +70,11 @@ Page({
         console.log(res.data);
    
         if (status == 200) {
-          app.userInfo = null;//除了删除redis的token以外，本地的userInfo也要删除
+          //修改app.userInfo为app.setGlobalUserInfo
+          // app.setGlobalUserInfo(null);//除了删除redis的token以外，本地的userInfo也要删除
+          //修改注销为删除缓存
+          wx.removeStorageSync("userInfo");
+          
           wx.showToast({
             title: '注销成功'
           }),
@@ -87,6 +94,7 @@ Page({
   },
   changeFace:function(){
     var me=this;
+    var userInfo=app.getGlobalUserInfo();
     wx.chooseImage({ //选择图片
       count: 1, //选择图片的数量
       sizeType: ['compressed'],
@@ -98,7 +106,8 @@ Page({
           title: '上传中...',
         })
         wx.uploadFile({
-          url: app.serverUrl+"/user/uploadFace?userId="+app.userInfo.id, //需要上传的url
+          //app.userInfo修改为userInfo,userInfo=app.getGlobalUserInfo
+          url: app.serverUrl+"/user/uploadFace?userId="+userInfo.id, //需要上传的url
           filePath: tempFilePaths[0],//图片/文件路径
           name: 'file',
           success(resp) {
