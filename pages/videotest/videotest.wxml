@@ -1,0 +1,19 @@
+<!-- http://127.0.0.1:8085/191103F961KC7GHH/video/62a80208-fe6e-4f91-a503-2a3433316de2.mp4 -->
+<!-- https://developers.weixin.qq.com/miniprogram/dev/component/video.html -->
+<video src="http://192.168.137.214:8085/191103F961KC7GHH/video/62a80208-fe6e-4f91-a503-2a3433316de2.mp4" 
+muted="{{false}}"
+controls="{{true}}"
+autoplay="{{true}}"
+loop="{{true}}"
+danmu-list="{{danmuList}}"
+enable-danmu="{{true}}"
+show-progress="{{false}}"
+show-fullscreen-btn="{{true}}"
+direction="0"
+show-play-btn="{{false}}"
+show-center-play-btn="{{false}}"
+enable-progress-gesture="{{true}}"
+></video>
+<view>
+<text>{{videoUrl}}</text>
+</view>
