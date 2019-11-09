@@ -100,7 +100,8 @@ Page({
         'content-type': 'application/json'
       },
       formData: {
-          userId: app.userInfo.id,
+        // app.userInfo修改为 app.getGlobalUserInfo
+          userId: app.getGlobalUserInfo().id,
           width: width,
           height: height,
           size: size,
