@@ -1,10 +1,23 @@
 <view>
   <view class='container'>
-    <image src="{{faceUrl}}" class="face" bindtap='changeFace'></image>
-    <label class='nickname'>{{nickname}}</label>
-    <button size='mini' class='primary' bindtap='uploadVideo'> 上传作品</button>
-    <button size='mini' type='' class='logout' bindtap='logout'>注销</button>
-    
+    <block wx:if="{{isMe}}">
+      <image src="{{faceUrl}}" class="face" bindtap='changeFace'></image>
+      <label class='nickname'>{{nickname}}</label>
+      <button size='mini' class='primary' bindtap='uploadVideo'> 上传作品</button>
+      <button size='mini' type='' class='logout' bindtap='logout'>注销</button>
+    </block>
+
+    <block wx:if="{{!isMe}}">
+      <image src="{{faceUrl}}" class="face" ></image>
+      <label class='nickname'>{{nickname}}</label>
+      <block wx:if="{{!isFollow}}" >
+      <!-- data-key 设置需要传输的值-->
+    <button size='mini' class='primary' bindtap='followMe' class="follow" data-follow="1"> 关注</button>
+    </block>
+    <block wx:if="{{isFollow}}">
+        <button size='mini' class='primary' bindtap='followMe' data-follow="0">取消关注</button>
+      </block>
+    </block>
     <view class='container-row'>
       <label class='info-items'>{{fansCounts}} 粉丝</label>
       <label class='info-items'>{{followCounts}} 关注</label>
