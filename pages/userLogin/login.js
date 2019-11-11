@@ -2,6 +2,7 @@ const app = getApp()
 
 Page({
   data: {
+    redirectUrl:'../mine/mine'
   },
 
   onLoad: function (params) {
@@ -9,10 +10,13 @@ Page({
     var redirectUrl = params.redirectUrl;
     // debugger;
     if (redirectUrl != null && redirectUrl != undefined && redirectUrl != '') {
-      redirectUrl = redirectUrl.replace(/#/g, "?");
+      redirectUrl = redirectUrl.replace(/#/g, "?");//字符串的替换
       redirectUrl = redirectUrl.replace(/@/g, "=");
-
-      me.redirectUrl = redirectUrl;
+      //获取到真正的url
+      console.log("登录后转到videoInfo的url"+redirectUrl)
+      me.setData({
+        redirectUrl:redirectUrl
+      })  
     }
   },
 
@@ -23,6 +27,7 @@ Page({
     var formObject=e.detail.value;
     var username=formObject.username;
     var password=formObject.password;
+    console.log("登录"+username);
     wx.showLoading({
       title: '请等待...',
     })
@@ -56,7 +61,7 @@ Page({
             // console.log(app.userInfo);
             // console.log(app.userInfo.faceImage);
             wx.redirectTo({
-              url: '../mine/mine',
+              url: me.data.redirectUrl,
 
             })
           
