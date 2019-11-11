@@ -9,7 +9,8 @@ Page({
     videoList:[],
     postUrl:null,
     searchValue:null,
-    isSaveRecord:0
+    isSaveRecord:0,
+    
   },
 
   onLoad: function (params) {
@@ -110,7 +111,12 @@ Page({
     this.showVideo(1);
   },
   showVideoInfo:function(e){
-    console.log(e.detail.value);
+    console.log(e.target.dataset.arrindex+"触发showVideoInfo");//获取下标
+    var index=e.target.dataset.arrindex;
+    wx.navigateTo({
+      //要携带一个对象过去，需要先转换为字符串,在下一个页面取出时需要再转换为json格式
+      url: '../videoinfo/videoinfo?data=' + JSON.stringify(this.data.videoList[index]) ,
+    })
   }
    
 })
