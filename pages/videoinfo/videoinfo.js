@@ -79,9 +79,9 @@ Page({
       })
     } else {
       if(me.data.userLikeVideo){
-        var postUrl = me.data.serverUrl + '/video/delUserLike?userId='+userInfo.id+'&videoId='+videoInfo.id
+        var postUrl = me.data.serverUrl + '/video/delUserLike?userId=' + userInfo.id + '&videoId=' + videoInfo.id + "&videoUserId=" + videoInfo.userId
       }else{
-        var postUrl = me.data.serverUrl + '/video/addUserLike?userId=' + userInfo.id + '&videoId=' + videoInfo.id
+        var postUrl = me.data.serverUrl + '/video/addUserLike?userId=' + userInfo.id + '&videoId=' + videoInfo.id+"&videoUserId="+videoInfo.userId
       }
       wx.request({
         url: postUrl,
