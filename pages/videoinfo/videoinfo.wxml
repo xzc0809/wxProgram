@@ -1,13 +1,14 @@
 <!--object-fit 当视频大小与 video 容器大小不一致时，视频的表现形式-->
 <!-- https://developers.weixin.qq.com/miniprogram/dev/component/cover-image.html 覆盖在原生组件之上的图片视图。可覆盖的原生组件同cover-view，支持嵌套在cover-view里。 -->
 <video style="width:100%;height:100%" 
-src="http://127.0.0.1:8085/191103F961KC7GHH/video/62a80208-fe6e-4f91-a503-2a3433316de2.mp4" 
+src="{{serverUrl}}{{videoInfo.videoPath}}" 
 muted="{{false}}"
 controls="{{true}}"
-autoplay="{{false}}"
+autoplay="{{true}}"
 loop="{{true}}"
 show-progress="{{false}}"
 enable-progress-gesture="{{false}}"
+show-fullscreen-btn="{{false}}"
 object-fit="{{cover}}"
 >
 
@@ -25,7 +26,7 @@ object-fit="{{cover}}"
 
 <cover-view class='container-me'>
             <!-- 头像 -->
-            <cover-image class="face" src='{{serverUrl}}{{publisher.faceImage}}' bindtap='showPublisher'></cover-image>
+            <cover-image class="face" src='{{serverUrl}}{{videoInfo.faceImage}}' bindtap='showPublisher'></cover-image>
 
 
             <!-- 喜欢收藏按钮 -->
@@ -47,7 +48,7 @@ object-fit="{{cover}}"
 
       <cover-view class='container-words'>
 
-            <cover-view>@{{publisher.nickname}}</cover-view>
+            <cover-view>@{{videoInfo.nickname}}</cover-view>
 
             <cover-view class='video-desc'>{{videoInfo.videoDesc}}</cover-view>
 
