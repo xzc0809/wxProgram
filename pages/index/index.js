@@ -49,7 +49,7 @@ Page({
       url: postUrl,
       method: 'POST',
       data:{
-        videoDesc:me.data.searchValue
+        videoDesc:me.data.searchValue//将搜索词传入
       },
       dataType: 'json',
       success: function (res) {
