@@ -131,5 +131,21 @@ Page({
         url: '../mine/mine?data=' + videoInfo.userId,
       })
     }
+  },
+  shareMe:function(){
+    // console.log(e);
+    wx.showActionSheet({//显示弹窗选择框  需要success:function函数
+      itemList: ["下载到本地","举报","分享到朋友圈"],
+      success:function(e){
+        console.log(e.tapIndex); //获取点击选择框的下标
+        var tapIndex=e.tapIndex;
+        if(tapIndex==2){
+          wx.showToast({
+            title: '官方暂未开通哦~亲',
+            icon:'none'
+          })
+        }
+      }
+    })
   }
 })
