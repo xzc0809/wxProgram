@@ -8,13 +8,13 @@
     </block>
 
     <block wx:if="{{!isMe}}">
-      <image src="{{faceUrl}}" class="face" ></image>
+      <image src="{{faceUrl}}" class="face"></image>
       <label class='nickname'>{{nickname}}</label>
-      <block wx:if="{{!isFollow}}" >
-      <!-- data-key 设置需要传输的值-->
-    <button size='mini' class='primary' bindtap='followMe' class="follow" data-follow="1"> 关注</button>
-    </block>
-    <block wx:if="{{isFollow}}">
+      <block wx:if="{{!isFollow}}">
+        <!-- data-key 设置需要传输的值-->
+        <button size='mini' class='primary' bindtap='followMe' class="follow" data-follow="1"> 关注</button>
+      </block>
+      <block wx:if="{{isFollow}}">
         <button size='mini' class='primary' bindtap='followMe' data-follow="0">取消关注</button>
       </block>
     </block>
@@ -28,3 +28,36 @@
 </view>
 
 <view class="line"></view>
+
+
+<view class="line"></view>
+
+<view class='container-video'>
+  <!-- 发布过的作品 -->
+  <view class='{{videoSelClass}} {{isSelectedWork}}' bindtap='doSelectWork'>作品</view>
+  <!-- 收藏的点赞的视频 -->
+  <view class='{{videoSelClass}} {{isSelectedLike}}' bindtap='doSelectLike'>收藏</view>
+  <!-- 用户关注过人发表的视频 -->
+  <view class='{{videoSelClass}} {{isSelectedFollow}}' bindtap='doSelectFollow'>关注</view>
+</view>
+
+<view class='container-video-list'>
+
+  <view hidden='{{myWorkFlag}}'>
+    <block wx:for="{{myVideoList}}">
+      <image src='{{serverUrl}}{{item.coverPath}}' class='videoImage' mode="aspectFill" bindtap='showVideo' data-arrindex='{{index}}'></image>
+    </block>
+  </view>
+
+  <view hidden='{{myLikesFlag}}'>
+    <block wx:for="{{likeVideoList}}">
+      <image src='{{serverUrl}}{{item.coverPath}}' class='videoImage' mode="aspectFill" bindtap='showVideo' data-arrindex='{{index}}'></image>
+    </block>
+  </view>
+
+  <view hidden='{{myFollowFlag}}'>
+    <block wx:for="{{followVideoList}}">
+      <image src='{{serverUrl}}{{item.coverPath}}' class='videoImage' mode="aspectFill" bindtap='showVideo' data-arrindex='{{index}}'></image>
+    </block>
+  </view>
+</view>
