@@ -40,7 +40,7 @@ Page({
     console.log(publisherId);
     var userInfo = app.getGlobalUserInfo();
     me.doSelectWork();
-    if (publisherId != null && publisherId != undefined && publisherId != '') { //若发布者信息不为空,则显示发布者的我的页面
+    if (publisherId != null && publisherId != undefined && publisherId != ''&&publisherId!=userInfo.id) { //若发布者信息不为空,则显示发布者的我的页面
 
       wx.request({
         url: app.serverUrl + '/user/queryUserInfo?userId=' + publisherId + "&fanId=" + userInfo.id, //需要请求关注关系
