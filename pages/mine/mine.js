@@ -337,7 +337,7 @@ Page({
     }
     wx.request({
       //调试：这里需要修改 app.get.... 改为userId
-      url: app.serverUrl + '/video/queryUserLikeVideos?userId=' + app.getGlobalUserInfo().id + "&pageNo=1",
+      url: app.serverUrl + '/video/queryUserLikeVideos?userId=' + userId+ "&pageNo=1",
       method: 'POST',
       dataType: 'json',
       responseType: 'text',
@@ -375,7 +375,7 @@ Page({
     }
     wx.request({
       //调试：这里需要修改 app.get.... 改为userId
-      url: app.serverUrl + '/video/queryUserFollowVideos?userId=' + app.getGlobalUserInfo().id + "&pageNo=1",
+      url: app.serverUrl + '/video/queryUserFollowVideos?userId=' + userId + "&pageNo=1",
       method: 'POST',
       dataType: 'json',
       responseType: 'text',
