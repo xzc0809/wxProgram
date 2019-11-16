@@ -25,6 +25,6 @@
         <view>
             <button class="submitBtn" type="" form-type='submit'>提  交</button>
         </view>
-
+    
     </form>
 </view>
