@@ -3,14 +3,14 @@
 <!-- {{serverUrl}}{{item.coverPath}} -->
 
      <view style='width:{{screenWidth}}px;height:210px;' class='back-img'> 
-        <image src="{{serverUrl}}{{item.coverPath}}" style='width:{{screenWidth}}px;height:210px;' mode="aspectFit" bindtap='showVideoInfo' data-arrindex='{{index}}'>{{index}}</image>
+        <image src="{{fileUrl}}{{item.coverPath}}" style='width:{{screenWidth}}px;height:210px;' mode="aspectFit" bindtap='showVideoInfo' data-arrindex='{{index}}'>{{index}}</image>
      </view> 
 
 
     <view class="desc">
         <view class="faceName">
         <!-- {{serverUrl}}{{item.faceImage}} -->
-            <image class='myface' src="{{serverUrl}}{{item.faceImage}}"></image>
+            <image class='myface' src="{{fileUrl}}{{item.faceImage}}"></image>
             <view class="nickname">{{item.nickname}}</view>
         </view>
     </view>
