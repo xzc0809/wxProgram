@@ -52,7 +52,12 @@ Page({
         title: reportReason,
         userid: app.getGlobalUserInfo().id
       },
+      header:{
+        userId:app.getGlobalUserInfo().id,
+        userToken:app.getGlobalUserInfo().userToken
+      },
       success:function(res){
+        console.log(res.data.status);
         if(res.data.status==200){
           wx.showToast({
             title: '举报成功',
@@ -62,10 +67,13 @@ Page({
             delta: 1,
             
           })
-        }else{
+        }else if(res.data.status==502){
           wx.showToast({
-            title: '举报失败，请稍后再试',
+            title: '请先登录',
             icon:'none'
+          }),
+          wx.navigateTo({
+            url: '../userRegist/regist',
           })
         }
       }
