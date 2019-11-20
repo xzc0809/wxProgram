@@ -10,6 +10,7 @@ Page({
     postUrl:null,
     searchValue:null,
     isSaveRecord:0,
+    fileUrl:app.fileUrl
     
   },
 
