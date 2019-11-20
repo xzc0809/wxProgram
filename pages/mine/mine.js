@@ -5,6 +5,7 @@ const app = getApp()
 Page({
   data: {
     serverUrl: app.serverUrl,
+    fileUrl:app.fileUrl,
     faceUrl: "../resource/images/noneface.png",
     url: app.serverUrl,
     fansCounts: 0,
@@ -83,7 +84,7 @@ Page({
         })
 
       } else {
-        var faceUrl = app.serverUrl + userInfo.faceImage;
+        var faceUrl = app.fileUrl + userInfo.faceImage;//獲取頭像
         me.setData({
           faceUrl: faceUrl
         })
@@ -301,7 +302,8 @@ Page({
       var userId = app.getGlobalUserInfo().id;
     }
     wx.request({
-      url: app.serverUrl + '/video/queryUserPublishVideos?userId=' + app.getGlobalUserInfo().id + "&pageNo=1",
+      //调试：这里需要修改 app.get.... 改为userId
+      url: app.serverUrl + '/video/queryUserPublishVideos?userId=' + userId + "&pageNo=1",
       method: 'POST',
       dataType: 'json',
       responseType: 'text',
