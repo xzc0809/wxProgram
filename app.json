@@ -1,14 +1,18 @@
 {
   "pages": [
-    "pages/chooseBgm/chooseBgm",
-    "pages/userLogin/login",
    
-    "pages/mine/mine",
-    "pages/userRegist/regist",
     "pages/index/index",
+    "pages/mine/mine",
+    "pages/searchVideo/searchVideo",
+   "pages/report/report",
+    "pages/videoinfo/videoinfo",
+    "pages/userLogin/login",
+    
+    "pages/videotest/videotest",
+    
+    "pages/chooseBgm/chooseBgm",
+    "pages/userRegist/regist",
     "pages/logs/logs"
-    
-    
   ],
   "window": {
     "backgroundTextStyle": "light",
