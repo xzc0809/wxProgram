@@ -1,7 +1,7 @@
 <!--object-fit 当视频大小与 video 容器大小不一致时，视频的表现形式-->
 <!-- https://developers.weixin.qq.com/miniprogram/dev/component/cover-image.html 覆盖在原生组件之上的图片视图。可覆盖的原生组件同cover-view，支持嵌套在cover-view里。 -->
 <video style="width:100%;height:100%" 
-src="{{serverUrl}}{{videoInfo.videoPath}}" 
+src="{{fileUrl}}{{videoInfo.videoPath}}" 
 muted="{{false}}"
 controls="{{true}}"
 autoplay="{{true}}"
@@ -26,7 +26,7 @@ object-fit="{{cover}}"
 
 <cover-view class='container-me'>
             <!-- 头像 -->
-            <cover-image class="face" src='{{serverUrl}}{{videoInfo.faceImage}}' bindtap='showPublisher'></cover-image>
+            <cover-image class="face" src='{{fileUrl}}{{videoInfo.faceImage}}' bindtap='showPublisher'></cover-image>
 
 
             <!-- 喜欢收藏按钮 -->
@@ -66,3 +66,39 @@ object-fit="{{cover}}"
         </cover-view>
 
 </video>
+
+<view>
+
+  <view class="saySthView">
+    <input name="commentContent" class="saySth" 
+    placeholder="{{placeholder}}" 
+    confirm-type="send" 
+    bindconfirm="saveComment" 
+    focus='{{commentFocus}}' 
+    value='{{contentValue}}' 
+    data-replyFatherCommentId='{{replyFatherCommentId}}' 
+    data-replyToUserId='{{replyToUserId}}'/>
+  </view>
+
+  <block wx:for="{{commentsList}}">
+    <view class='comments-all' bindtap='replyFocus' data-fatherCommentId='{{item.id}}' data-toUserId='{{item.fromUserId}}' data-toNickname='{{item.nickname}}'>
+      <view class='container-comments'>
+        <image class="face-comments" src='{{fileUrl}}{{item.faceImage}}'></image>
+        <view class='nickname-comments'>
+          <label class='nickname-lbl'>@{{item.nickname}}</label>
+          于
+          <label class='date-lbl'>{{item.timeAgoStr}}</label>
+          <!-- 留言： -->
+          <block wx:if="{{item.toNickname != null}}">
+            回复
+            <label class='nickname-lbl'>@{{item.toNickname}}</label>
+          </block>
+          <block wx:else>
+            留言：
+          </block>
+        </view>
+      </view>
+      <view class='comments-content'>{{item.comment}}</view>
+    </view>
+  </block>
+</view>

@@ -7,7 +7,16 @@ Page({
     cover: "cover",
     serverUrl: app.serverUrl,
     videoInfo: null,
-    userLikeVideo: false
+    userLikeVideo: false,
+    placeholder: "说点什么吧。。。",
+    commentFocus: false,
+    contentValue:"",
+    commentPage:0,
+    commentTotalPage:1,
+    commentsList:[],
+    replyFatherCommentId:null,
+    replyToUserId:null,
+    fileUrl:app.fileUrl
   },
 
   showSearch: function() {
@@ -134,7 +143,7 @@ Page({
   },
   shareMe: function() {
     // console.log(e);
-    var userInfo=app.getGlobalUserInfo();
+    var userInfo = app.getGlobalUserInfo();
     var me = this;
     wx.showActionSheet({ //显示弹窗选择框  需要success:function函数
       itemList: ["下载到本地", "举报", "分享到朋友圈"],
@@ -144,13 +153,13 @@ Page({
         if (tapIndex == 0) { //下载到本地
 
         } else if (tapIndex == 1) { //举报
-          
+
           //登录拦截
           if (userInfo == null || userInfo == undefined || userInfo == '') {
             //需要在 传输时对需要做传输的url后带的符号 进行转义
             //并且把对象转化为字符串
             var data = JSON.stringify(me.data.videoInfo);
-            var realUrl = '../videoInfo/videoInfo#data@' + videoInfo;
+            var realUrl = '../videoInfo/videoInfo#data@' + data;
             wx.redirectTo({
               url: '../userLogin/login?redirectUrl=' + realUrl,
             })
@@ -159,7 +168,7 @@ Page({
               url: '../report/report?dealVideoId=' + me.data.videoInfo.id + "&dealUserId=" + me.data.videoInfo.userId
             })
           }
-        
+
         } else if (tapIndex == 2) {
           wx.showToast({
             title: '官方暂未开通哦~亲',
@@ -169,5 +178,135 @@ Page({
       }
     })
 
+  },
+  leaveComment: function() {
+    this.setData({
+      commentFocus: true
+    })
+  },
+  saveComment: function(e) {
+    var userInfo = app.getGlobalUserInfo();
+    var me = this;
+    var videoInfo = this.data.videoInfo;
+
+    console.log(e);
+    var fatherCommentId = e.currentTarget.dataset.replyfathercommentid;//被回复的评论id
+    var toUserId = e.currentTarget.dataset.replytouserid;//被回复的用户id
+   
+    //登录拦截
+    if (userInfo == null || userInfo == undefined || userInfo == '') {
+      //需要在 传输时对需要做传输的url后带的符号 进行转义
+      //并且把对象转化为字符串
+      var data = JSON.stringify(me.data.videoInfo);
+      var realUrl = '../videoinfo/videoinfo#data@' + data;
+      wx.redirectTo({
+        url: '../userLogin/login?redirectUrl=' + realUrl,
+      })
+      return;
+    }
+    var content=e.detail.value;//获取评论内容
+    wx.showLoading({
+      title: '发送中...',
+    })
+    wx.request({
+      url: app.serverUrl + '/video/saveComment',
+      method: 'POST',
+      header: {
+        userId: userInfo.id,
+        userToken: userInfo.userToken
+      },
+      data:{
+        fromUserId:userInfo.id,
+        videoId:videoInfo.id,
+        comment:content,
+        fatherCommentId:fatherCommentId,
+        toUserId:toUserId
+      },
+      success:function(res){
+        if(res.data.status==200){
+          wx.showToast({
+            title: '评论成功',
+          }),
+          me.setData({
+            contentValue:""
+          });
+          me.getCommentList(1);
+        }else{
+          wx.showToast({
+            title: '保存失败！稍后再试',
+            icon:'none'
+          })
+        }
+      }
+    })
+    console.log(e.detail.value);
+    // var page=me.data.commentPage;
+   me.getCommentList(1);
+  },
+  getCommentList:function(pageNo){
+    var videoId=this.data.videoInfo.id;
+    var me=this;
+
+    wx.request({
+      url: app.serverUrl +'/video/getCommentVOList?pageNo='+pageNo+'&videoId='+videoId+'&pageSize=5',
+      method: 'POST',                                       
+      success: function(res) {
+        var oldList=me.data.commentsList;
+        if(res.data.status==200){
+          if(pageNo==1){//页码为1时清空之前的列表数据
+            me.setData({
+              commentsList:[],
+            }),
+            oldList=me.data.commentsList;
+          }    
+          
+          var newList=oldList.concat(res.data.data.rows);
+          
+          console.log(res.data.data);
+          if(res.data.data.pageCount==0){ //如果没有内容，设置pageCount ,currentPage同时为0
+            var pageCount=0;
+            var currentPage=0;  
+          }else{
+            var pageCount=res.data.data.pageCount;
+            var currentPage=pageNo;
+          }
+          me.setData({
+            commentsList:newList,
+            commentTotalPage: pageCount,
+            commentPage: currentPage
+          })
+          console.log(res.data.data.rows);
+        }
+      },
+    
+    })
+  },
+  onReachBottom:function(){
+    var me=this;
+    var currentPage=me.data.commentPage;
+    var totalPage=me.data.commentTotalPage;
+    console.log(me.data.commentPage);
+    if(currentPage==totalPage){
+      wx.showToast({
+        title: '到底了',
+        icon:'none'
+      });
+      return;
+    }else{
+    currentPage=currentPage+1;  //触底时获取第一页内容
+    me.getCommentList(currentPage);
+    }
+  },
+  replyFocus:function(e){//点击回复聚焦
+      console.log();
+    var fathercommentid = e.currentTarget.dataset.fathercommentid;
+    var tonickname= e.currentTarget.dataset.tonickname;
+    var touserid= e.currentTarget.dataset.touserid;
+    this.setData({
+      placeholder:"回复："+tonickname,
+      commentFocus:true,
+      replyToUserId:touserid,//被回复的人
+      replyFatherCommentId:fathercommentid //被回复的消息id
+    })
   }
 })
