@@ -62,7 +62,7 @@ Page({
             // console.log(app.userInfo.faceImage);
             wx.redirectTo({
               url: me.data.redirectUrl,
-
+          
             })
           
           }else if(status==500){
@@ -91,7 +91,7 @@ Page({
   },
 
   goRegistPage:function() {
-    wx.redirectTo({
+    wx.navigateTo({
       url: '../userRegist/regist',
     })
   }
