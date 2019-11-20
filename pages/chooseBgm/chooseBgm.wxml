@@ -6,7 +6,7 @@
         <view class="container">
          <radio  style="margin-top:20px" value="{{item.id}}"> 
          
-         <audio poster="{{item.poster}}" name="{{item.name}}" author="{{item.author}}" src="{{serverUrl}}{{item.path}}" id="myAudio" controls loops ></audio>  
+         <audio poster="{{item.poster}}" name="{{item.name}}" author="{{item.author}}" src="{{fileUrl}}{{item.path}}" id="myAudio" controls loops ></audio>  
       
          </radio>
   
