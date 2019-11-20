@@ -6,14 +6,15 @@ Page({
     // 使用 wx.createAudioContext 获取 audio 上下文 context
  
     this.audioCtx = wx.createAudioContext('myAudio');
-  
+
   },
  
   data: {
     bgmList:null,
     serverUrl:app.serverUrl,
     isPlay: true,
-    videoParams:{}
+    videoParams:{},
+    fileUrl:app.fileUrl
     
   },
 
@@ -92,12 +93,16 @@ Page({
       title: '上传中..请等待',
     })
     console.log(app.serverUrl + '/video/upload'),
+      //url这里进行了修改
+      // url: app.serverUrl + '/video/upload',
     wx.uploadFile({
-      url: app.serverUrl+'/video/upload',
+      url: app.uploadUrl+'/upload',
       filePath: temVideoUrl,
       name: 'file',
       header: {
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        userId:app.getGlobalUserInfo().id,
+        userToken:app.getGlobalUserInfo().userToken
       },
       formData: {
         // app.userInfo修改为 app.getGlobalUserInfo
